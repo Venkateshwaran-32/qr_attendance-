@@ -1,0 +1,4 @@
+this is a web app that i created using the help from chatgpt , joseph tan , ashley khng ---> this app aims to solve the hastle of having to wait in line after book in to sign the BIBO(book in book out) book and therefore making it easier and faster for individuals to sign online using thier smartphones , via a qr code that leads to the URL or it can be a link that is sent to the whatsapp group chat 
+the security features that i have thought through is , 
+Firstly , only 1 login is allowed for 1 device and i have restricted this by limiting 1 ip adress to one login
+Secondly , the users location will be automatically recorded when marking attendance , this is so that if someone tries to cheat the system and gets caught there is proof to show that he or she is not in camp and had lied to superiors.
