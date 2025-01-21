@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>QR Attendance</title>
+</head>
+<body>
+    <h1>Welcome to the QR Attendance System</h1>
+
+    <!-- Input fields for user's name and ID -->
+    <label for="user_name">Name:</label>
+    <input type="text" id="user_name" name="user_name" required><br><br>
+
+    <label for="user_id">ID:</label>
+    <input type="text" id="user_id" name="user_id" required><br><br>
+
+    <!-- Attendance button -->
+    <button id="confirm">Mark Attendance</button>
+
+    <script>
+        document.getElementById('confirm').addEventListener('click', async () => {
+            // Get user's input from the form fields
+            const userName = document.getElementById('user_name').value;
+            const userId = document.getElementById('user_id').value;
+
+            // Check if the user has entered both name and ID
+            if (!userName || !userId) {
+                alert("Please enter both your name and ID.");
+                return;
+            }
+
+            // Get user's current location
+            try {
+                const position = await new Promise((resolve, reject) =>
+                    navigator.geolocation.getCurrentPosition(resolve, reject)
+                );
+                const location = {
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude
+                };
+
+                // Send the data to the backend
+                const response = await fetch('/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_name: userName, user_id: userId, location })
+                });
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert(result.message);
+                } else {
+                    alert(`Error: ${result.error}`);
+                }
+            } catch (error) {
+                console.error("Error getting location or submitting data:", error);
+                alert("An error occurred. Please ensure location services are enabled.");
+            }
+        });
+    </script>
+</body>
+</html>
+
